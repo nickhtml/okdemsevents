@@ -64,6 +64,15 @@ interface ActionDashboardProps {
   initialView: 'near-me' | 'by-candidate' | 'upcoming';
 }
 
+/**
+ * @function ActionDashboard
+ * @description Primary view orchestrator that manages loading, filtering, and displaying
+ * Oklahoma Dem campaigns, candidates list, and events stream with a bright interactive map.
+ * 
+ * @param {ActionDashboardProps} props - Component properties.
+ * @param {'near-me' | 'by-candidate' | 'upcoming'} props.initialView - The active category layout view.
+ * @returns {JSX.Element} The rendered dashboard.
+ */
 export function ActionDashboard({ initialView }: ActionDashboardProps) {
   const { candidateName } = useParams<{ candidateName?: string }>();
   const navigate = useNavigate();
@@ -157,12 +166,27 @@ export function ActionDashboard({ initialView }: ActionDashboardProps) {
 
   return (
     <div className="flex flex-col w-full bg-[#1d3557]">
+      {/* Top Loading Progress Indicator */}
+      {(loading || candidatesLoading) && (
+        <div className="w-full h-1 bg-[#457b9d]/30 overflow-hidden shrink-0 relative">
+          <div className="h-full bg-[#ffba49] animate-pulse w-full origin-left duration-1000"></div>
+        </div>
+      )}
       
       {/* ----------------- VIEW 1: NEAR ME (BRIGHT MAP TRACKER) ----------------- */}
       {initialView === 'near-me' && (
         <div className="w-full flex flex-col relative">
           {/* Bright Map Container */}
           <div className="w-full bg-[#457b9d] relative h-[calc(100vh-140px)] min-h-[500px]">
+            {/* Smooth Map API Loading Animation Overlay */}
+            {loading && (
+              <div className="absolute inset-0 bg-[#1d3557]/70 backdrop-blur-[2px] z-[1000] flex flex-col items-center justify-center">
+                <div className="bg-[#1d3557] border-2 border-[#ffba49] p-4 flex items-center space-x-3 shadow-2xl">
+                  <Loader2 className="animate-spin w-5 h-5 text-[#ffba49]" />
+                  <span className="font-bold text-xs tracking-wider uppercase text-[#f1faee]">loading</span>
+                </div>
+              </div>
+            )}
             {/* Floating Geolocate Control */}
             <div className="absolute top-4 right-4 z-[1000]">
               <button 
