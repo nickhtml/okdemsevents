@@ -44,7 +44,7 @@ function Layout() {
         <div className="flex bg-[#a8dadc] border-2 border-[#457b9d] rounded-none w-full md:w-auto">
           <Link 
             to="/" 
-            className={`px-4 sm:px-6 py-2.5 font-bold uppercase text-[10px] sm:text-xs text-center flex-1 md:flex-none border-r-2 border-[#457b9d] transition-colors ${
+            className={`px-2 sm:px-6 py-2.5 font-bold uppercase text-[9px] min-[375px]:text-[10px] sm:text-xs text-center flex-1 md:flex-none border-r-2 border-[#457b9d] transition-colors whitespace-nowrap ${
               activeTab === 'near-me' ? 'bg-[#ffba49] text-[#1d3557]' : 'text-[#1d3557] hover:bg-[#ffba49]'
             }`}
           >
@@ -52,7 +52,7 @@ function Layout() {
           </Link>
           <Link 
             to="/candidates" 
-            className={`px-4 sm:px-6 py-2.5 font-bold uppercase text-[10px] sm:text-xs text-center flex-1 md:flex-none border-r-2 border-[#457b9d] transition-colors ${
+            className={`px-2 sm:px-6 py-2.5 font-bold uppercase text-[9px] min-[375px]:text-[10px] sm:text-xs text-center flex-1 md:flex-none border-r-2 border-[#457b9d] transition-colors whitespace-nowrap ${
               activeTab === 'by-candidate' ? 'bg-[#ffba49] text-[#1d3557]' : 'text-[#1d3557] hover:bg-[#ffba49]'
             }`}
           >
@@ -62,7 +62,7 @@ function Layout() {
             href="https://www.mobilize.us/okdemocrats"
             target="_blank"
             rel="noopener noreferrer"
-            className={`px-4 sm:px-6 py-2.5 font-bold uppercase text-[10px] sm:text-xs text-center flex-1 md:flex-none transition-colors ${
+            className={`px-2 sm:px-6 py-2.5 font-bold uppercase text-[9px] min-[375px]:text-[10px] sm:text-xs text-center flex-1 md:flex-none transition-colors whitespace-nowrap ${
               activeTab === 'upcoming' ? 'bg-[#ffba49] text-[#1d3557]' : 'text-[#1d3557] hover:bg-[#ffba49]'
             }`}
           >

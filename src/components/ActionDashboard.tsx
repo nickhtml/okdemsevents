@@ -255,16 +255,16 @@ export function ActionDashboard({ initialView }: ActionDashboardProps) {
             /* Active Isolated Candidate Profile View */
             <div className="w-full flex flex-col">
               {/* Profile Header */}
-              <div className="bg-[#ffba49] border-b-2 border-[#457b9d] p-3 sm:p-4 text-[#1d3557] flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
-                <div className="flex items-center space-x-3">
+              <div className="bg-[#ffba49] border-b-2 border-[#457b9d] p-3 sm:p-4 text-[#1d3557] flex flex-row items-center justify-between gap-2 shrink-0 w-full">
+                <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
                   <button 
                     onClick={() => navigate('/candidates')}
-                    className="p-1.5 border-2 border-[#1d3557] hover:bg-[#1d3557] hover:text-white transition-colors rounded-none"
+                    className="p-1.5 border-2 border-[#1d3557] hover:bg-[#1d3557] hover:text-white transition-colors rounded-none shrink-0"
                     title="Back to Directory"
                   >
                     <ArrowLeft size={14} />
                   </button>
-                  <div className="w-12 h-12 border-2 border-[#1d3557] rounded-full overflow-hidden bg-white shrink-0">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 border-2 border-[#1d3557] rounded-full overflow-hidden bg-white shrink-0">
                     <img 
                       src={activeCandidate.imageUrl} 
                       alt={activeCandidate.name} 
@@ -275,21 +275,21 @@ export function ActionDashboard({ initialView }: ActionDashboardProps) {
                       }}
                     />
                   </div>
-                  <div>
-                    <h2 className="text-lg sm:text-xl font-black uppercase leading-tight">{activeCandidate.name}</h2>
-                    <p className="text-[10px] sm:text-xs font-bold uppercase">{activeCandidate.office}</p>
+                  <div className="min-w-0">
+                    <h2 className="text-sm sm:text-lg md:text-xl font-black uppercase leading-tight truncate">{activeCandidate.name}</h2>
+                    <p className="text-[9px] sm:text-[10px] md:text-xs font-bold uppercase truncate">{activeCandidate.office}</p>
                   </div>
                 </div>
 
-                <div className="flex gap-2 flex-wrap justify-center sm:justify-end">
+                <div className="flex gap-1.5 sm:gap-2 shrink-0 items-center justify-end">
                   {activeCandidate.slug === 'nelson' && (
                     <a 
                       href="https://www.mobilize.us/nelson/" 
                       target="_blank" 
                       rel="noreferrer"
-                      className="bg-[#1fb976] text-white font-black text-[10px] sm:text-xs uppercase px-3 py-1.5 border-2 border-[#457b9d] hover:bg-[#ffba49] hover:text-[#1d3557] transition-all flex items-center rounded-none"
+                      className="bg-[#1fb976] text-white font-black text-[9px] sm:text-xs uppercase px-2 py-1 border-2 border-[#457b9d] hover:bg-[#ffba49] hover:text-[#1d3557] transition-all flex items-center rounded-none whitespace-nowrap"
                     >
-                      Visit Campaign Events <ExternalLink size={10} className="ml-1.5" />
+                      Events <ExternalLink size={10} className="ml-1" />
                     </a>
                   )}
                   {activeCandidate.slug === 'cyndi' && (
@@ -297,16 +297,16 @@ export function ActionDashboard({ initialView }: ActionDashboardProps) {
                       href="https://www.mobilize.us/cyndimunson/" 
                       target="_blank" 
                       rel="noreferrer"
-                      className="bg-[#1fb976] text-white font-black text-[10px] sm:text-xs uppercase px-3 py-1.5 border-2 border-[#457b9d] hover:bg-[#ffba49] hover:text-[#1d3557] transition-all flex items-center rounded-none"
+                      className="bg-[#1fb976] text-white font-black text-[9px] sm:text-xs uppercase px-2 py-1 border-2 border-[#457b9d] hover:bg-[#ffba49] hover:text-[#1d3557] transition-all flex items-center rounded-none whitespace-nowrap"
                     >
-                      View Campaign Events <ExternalLink size={10} className="ml-1.5" />
+                      Events <ExternalLink size={10} className="ml-1" />
                     </a>
                   )}
                   <a 
                     href={activeCandidate.url} 
                     target="_blank" 
                     rel="noreferrer"
-                    className="bg-[#1d3557] text-[#f1faee] font-bold text-[10px] sm:text-xs uppercase px-3 py-1.5 border-2 border-[#1d3557] hover:bg-[#ffba49] hover:text-[#1d3557] transition-all flex items-center rounded-none"
+                    className="bg-[#1d3557] text-[#f1faee] font-bold text-[9px] sm:text-xs uppercase px-2.5 py-1.5 border-2 border-[#1d3557] hover:bg-[#ffba49] hover:text-[#1d3557] transition-all flex items-center rounded-none whitespace-nowrap"
                   >
                     Learn More <ExternalLink size={10} className="ml-1.5" />
                   </a>
