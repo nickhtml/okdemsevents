@@ -18,34 +18,37 @@ const router = Router();
  * @returns {boolean} True if the event matches the candidate's campaign
  */
 function matchesCandidate(event: any, candidate: Candidate): boolean {
-  const nameParts = candidate.name
+  const cleanName = candidate.name
     .replace(/^(rep\.|senator|sen\.|dr\.)\s+/i, '')
     .toLowerCase()
-    .split(/\s+/);
-  const cLastName = candidate.lastName.toLowerCase();
+    .trim();
+    
+  const nameParts = cleanName.split(/\s+/);
+  const cLastName = candidate.lastName.toLowerCase().trim();
   const cOffice = candidate.office.toLowerCase();
-  const cSlug = candidate.slug.toLowerCase();
+  const cSlug = candidate.slug.toLowerCase().trim();
   
   // Extract digits from office (e.g. "District 83" -> "83")
   const distMatch = cOffice.match(/\d+/);
   const distNum = distMatch ? distMatch[0] : '';
   const isSenate = cOffice.includes('senate') || cOffice.includes('senator');
   
+  const title = (event.title || '').toLowerCase();
+  const desc = (event.description || '').toLowerCase();
+  
   // Extract normalized tags: Mobilize returns tags as an array of objects e.g. { name: "Hd83Dalton" }
   const eventTags = (event.tags || []).map((t: any) => {
     if (typeof t === 'string') return t.toLowerCase();
     return (t && typeof t === 'object' && t.name ? t.name : '').toLowerCase();
   }).filter((t: string) => t.length > 0);
-  
-  const title = (event.title || '').toLowerCase();
-  const desc = (event.description || '').toLowerCase();
-  
-  // 1. Direct name parts or slug matching in tags
-  if (eventTags.some((tag: string) => tag === cLastName || tag === cSlug || nameParts.includes(tag))) {
+
+  // --- 1. DIRECT TAG MATCHES ---
+  // If a tag exactly matches the full name, last name, or slug
+  if (eventTags.some((tag: string) => tag === cleanName || tag === cLastName || tag === cSlug)) {
     return true;
   }
-  
-  // 2. District and name parts compound matching (e.g. "hd26odneal", "hd83dalton", "sd16boren")
+
+  // --- 2. DISTRICT AND NAME COMPOUND MATCHING IN TAGS ---
   if (distNum) {
     const prefix = isSenate ? 'sd' : 'hd';
     const compounds = [
@@ -62,23 +65,48 @@ function matchesCandidate(event: any, candidate: Candidate): boolean {
       return true;
     }
   }
-  
-  // 3. Fallback: text matching in title or description
-  const containsAnyName = nameParts.some(part => part.length > 2 && (title.includes(part) || desc.includes(part))) ||
-                           title.includes(cLastName) || desc.includes(cLastName) ||
-                           title.includes(cSlug) || desc.includes(cSlug);
-  
-  if (containsAnyName) {
-    if (distNum) {
-      const isDistrictMatch = title.includes(distNum) || desc.includes(distNum) || 
-                              title.includes(`hd${distNum}`) || title.includes(`sd${distNum}`) ||
-                              desc.includes(`hd${distNum}`) || desc.includes(`sd${distNum}`) ||
-                              eventTags.some(tag => tag.includes(distNum));
-      return isDistrictMatch;
-    }
+
+  // --- 3. FALLBACK TEXT MATCHING (TITLE / DESCRIPTION) ---
+  // We require either:
+  // A) FULL NAME MATCH (The complete full name is present, or both the first and last name are present)
+  const firstName = nameParts[0] || '';
+  const hasFullName = (title.includes(cleanName) || desc.includes(cleanName)) ||
+                       ((title.includes(firstName) || desc.includes(firstName)) && 
+                        (title.includes(cLastName) || desc.includes(cLastName)));
+
+  if (hasFullName) {
     return true;
   }
-  
+
+  // B) FIRST NAME + DISTRICT MATCH (Only if the candidate has a district)
+  if (distNum && firstName && firstName.length > 2) {
+    const hasFirstName = title.includes(firstName) || desc.includes(firstName);
+    if (hasFirstName) {
+      const prefix = isSenate ? 'sd' : 'hd';
+      const isDistrictMatch = 
+        title.includes(`district ${distNum}`) || desc.includes(`district ${distNum}`) ||
+        title.includes(`district${distNum}`) || desc.includes(`district${distNum}`) ||
+        title.includes(`${prefix}${distNum}`) || desc.includes(`${prefix}${distNum}`) ||
+        title.includes(`${prefix}-${distNum}`) || desc.includes(`${prefix}-${distNum}`) ||
+        eventTags.some(tag => tag.includes(distNum) || tag.includes(`${prefix}${distNum}`));
+        
+      if (isDistrictMatch) {
+        return true;
+      }
+    }
+  }
+
+  // C) LAST NAME WHOLE-WORD MATCH
+  // Match on last name if it is a whole word in the title or description (e.g. "Priest", "Coffey").
+  // Word boundaries (\b) ensure "Coffey" does not match "coffee".
+  if (cLastName && cLastName.length > 2) {
+    const escapedLastName = cLastName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const wordRegex = new RegExp(`\\b${escapedLastName}\\b`, 'i');
+    if (wordRegex.test(title) || wordRegex.test(desc)) {
+      return true;
+    }
+  }
+
   return false;
 }
 

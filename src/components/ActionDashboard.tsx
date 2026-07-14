@@ -329,8 +329,14 @@ export function ActionDashboard({ initialView }: ActionDashboardProps) {
                     ))}
                   </div>
                 ) : (
-                  <div className="bg-[#f1faee] border-2 border-[#457b9d] text-[#1d3557] p-8 text-center font-bold uppercase rounded-none">
-                    No active Mobilize events scheduled right now.
+                  <div className="bg-[#f1faee] border-2 border-[#457b9d] text-[#1d3557] p-8 text-center font-bold uppercase rounded-none flex flex-col items-center justify-center gap-4">
+                    <span>This candidate has no upcoming events.</span>
+                    <Link 
+                      to="/"
+                      className="bg-[#1fb976] hover:bg-[#ffba49] hover:text-[#1d3557] text-white font-black text-xs uppercase px-4 py-2 border-2 border-[#1d3557] transition-all rounded-none"
+                    >
+                      Find More Events Near You
+                    </Link>
                   </div>
                 )}
               </div>
@@ -390,7 +396,7 @@ export function ActionDashboard({ initialView }: ActionDashboardProps) {
                         <div className="space-y-2 pt-2 border-t border-[#457b9d]/30">
                           {cand.slug === 'nelson' ? (
                             <a 
-                              href="https://www.mobilize.us/nelsonforok/"
+                              href="https://www.mobilize.us/nelson/"
                               target="_blank"
                               rel="noreferrer"
                               className="bg-[#1fb976] hover:bg-[#ffba49] transition-colors text-white hover:text-[#1d3557] font-black text-center py-2 text-xs uppercase border-2 border-[#457b9d] block w-full rounded-none"
