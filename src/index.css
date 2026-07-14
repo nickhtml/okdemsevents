@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #1d3557;
+}
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  border-radius: 0 !important;
+  border: 2px solid #1d3557 !important;
+  background-color: #f1faee !important;
+  color: #1d3557 !important;
+  box-shadow: none !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  padding: 12px !important;
+}
+
+.leaflet-popup-tip {
+  border-top: none !important;
+  border-left: none !important;
+}
+
+/* Ensure map container is hard edged */
+.leaflet-container {
+  background-color: #457b9d !important;
+}

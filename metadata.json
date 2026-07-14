@@ -1,0 +1,10 @@
+{
+  "name": "OKDEMS Event & Action Finder",
+  "description": "High-performance, public-facing, mobile-first event locator and candidate gateway system.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
