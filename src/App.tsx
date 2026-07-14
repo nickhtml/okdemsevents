@@ -84,7 +84,7 @@ function Layout() {
       {/* Mandatory Corporate Footer */}
       <footer className="bg-[#f1faee] border-t-2 border-[#457b9d] px-6 py-3 flex items-center justify-center shrink-0 z-40">
         <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-[#1d3557] text-center leading-normal">
-          Paid for and authorized by the Oklahoma Democratic Party &copy; 2026 | Report Issue | Privacy Policy | An OKDEMS Digital Experience
+          Paid for and authorized by the Oklahoma Democratic Party &copy; 2026 | <a href="mailto:digitools@okdemocrats.org" className="hover:underline">Report Issue</a> | <a href="https://www.okdemocrats.org/Terms-Policies" target="_blank" rel="noopener noreferrer" className="hover:underline">Privacy Policy</a> | <span className="text-[#e63946]">An OKDEMS Digital Experience</span>
         </p>
       </footer>
 
